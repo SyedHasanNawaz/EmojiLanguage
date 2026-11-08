@@ -182,8 +182,144 @@ CMakeFiles/emojilang.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/fstream \
- /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/istream.tcc \
+ /home/hasan/Desktop/CC_Project/src/codegen.h \
+ /usr/lib/llvm-18/include/llvm/IR/LLVMContext.h \
+ /usr/lib/llvm-18/include/llvm-c/Types.h \
+ /usr/lib/llvm-18/include/llvm-c/DataTypes.h /usr/include/inttypes.h \
+ /usr/lib/llvm-18/include/llvm-c/ExternC.h \
+ /usr/lib/llvm-18/include/llvm/IR/DiagnosticHandler.h \
+ /usr/lib/llvm-18/include/llvm/ADT/StringRef.h \
+ /usr/lib/llvm-18/include/llvm/ADT/DenseMapInfo.h \
+ /usr/include/c++/13/cassert /usr/include/assert.h \
+ /usr/include/c++/13/cstdint /usr/include/c++/13/utility \
+ /usr/include/c++/13/bits/stl_relops.h \
+ /usr/lib/llvm-18/include/llvm/ADT/STLFunctionalExtras.h \
+ /usr/lib/llvm-18/include/llvm/ADT/STLForwardCompat.h \
+ /usr/include/c++/13/optional \
+ /usr/lib/llvm-18/include/llvm/ADT/iterator_range.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ADL.h /usr/include/c++/13/iterator \
+ /usr/include/c++/13/bits/stream_iterator.h \
+ /usr/lib/llvm-18/include/llvm/Support/Compiler.h \
+ /usr/lib/llvm-18/include/llvm/Config/llvm-config.h \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/c++/13/limits \
+ /usr/lib/llvm-18/include/llvm/Support/CBindingWrapping.h \
+ /usr/lib/llvm-18/include/llvm/Support/Casting.h \
+ /usr/lib/llvm-18/include/llvm/Support/type_traits.h \
+ /usr/lib/llvm-18/include/llvm/IR/FixedMetadataKinds.def \
+ /usr/lib/llvm-18/include/llvm/IR/Module.h \
+ /usr/lib/llvm-18/include/llvm/ADT/STLExtras.h \
+ /usr/lib/llvm-18/include/llvm/ADT/Hashing.h \
+ /usr/lib/llvm-18/include/llvm/Support/DataTypes.h \
+ /usr/lib/llvm-18/include/llvm/Support/ErrorHandling.h \
+ /usr/lib/llvm-18/include/llvm/Support/SwapByteOrder.h \
+ /usr/lib/llvm-18/include/llvm/ADT/bit.h \
+ /usr/lib/llvm-18/include/llvm/ADT/iterator.h \
+ /usr/lib/llvm-18/include/llvm/Config/abi-breaking.h \
+ /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/array /usr/include/c++/13/compare \
+ /usr/lib/llvm-18/include/llvm/ADT/StringMap.h \
+ /usr/lib/llvm-18/include/llvm/ADT/StringMapEntry.h \
+ /usr/lib/llvm-18/include/llvm/Support/AllocatorBase.h \
+ /usr/lib/llvm-18/include/llvm/Support/MemAlloc.h \
+ /usr/lib/llvm-18/include/llvm/Support/PointerLikeTypeTraits.h \
+ /usr/lib/llvm-18/include/llvm/IR/Attributes.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ArrayRef.h \
+ /usr/lib/llvm-18/include/llvm/ADT/SmallVector.h \
+ /usr/lib/llvm-18/include/llvm/ADT/BitmaskEnum.h \
+ /usr/lib/llvm-18/include/llvm/Support/MathExtras.h \
+ /usr/include/c++/13/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /usr/lib/llvm-18/include/llvm/Support/Alignment.h \
+ /usr/lib/llvm-18/include/llvm/Support/CodeGen.h \
+ /usr/lib/llvm-18/include/llvm/Support/ModRef.h \
+ /usr/lib/llvm-18/include/llvm/ADT/Sequence.h \
+ /usr/lib/llvm-18/include/llvm/Support/raw_ostream.h \
+ /usr/lib/llvm-18/include/llvm/IR/Attributes.inc \
+ /usr/lib/llvm-18/include/llvm/IR/Comdat.h \
+ /usr/lib/llvm-18/include/llvm/ADT/SmallPtrSet.h \
+ /usr/lib/llvm-18/include/llvm/ADT/EpochTracker.h \
+ /usr/lib/llvm-18/include/llvm/Support/ReverseIteration.h \
+ /usr/lib/llvm-18/include/llvm/IR/DataLayout.h \
+ /usr/lib/llvm-18/include/llvm/ADT/APInt.h \
+ /usr/lib/llvm-18/include/llvm/IR/DerivedTypes.h \
+ /usr/lib/llvm-18/include/llvm/IR/Type.h \
+ /usr/lib/llvm-18/include/llvm/Support/TypeSize.h \
+ /usr/lib/llvm-18/include/llvm/Support/TrailingObjects.h \
+ /usr/lib/llvm-18/include/llvm/Support/AlignOf.h \
+ /usr/lib/llvm-18/include/llvm/IR/Function.h \
+ /usr/lib/llvm-18/include/llvm/ADT/DenseSet.h \
+ /usr/lib/llvm-18/include/llvm/ADT/DenseMap.h \
+ /usr/lib/llvm-18/include/llvm/ADT/Twine.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist_node.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist_node_base.h \
+ /usr/lib/llvm-18/include/llvm/ADT/PointerIntPair.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist_node_options.h \
+ /usr/lib/llvm-18/include/llvm/IR/Argument.h \
+ /usr/lib/llvm-18/include/llvm/IR/Value.h \
+ /usr/lib/llvm-18/include/llvm/IR/Use.h \
+ /usr/lib/llvm-18/include/llvm/IR/Value.def \
+ /usr/lib/llvm-18/include/llvm/IR/BasicBlock.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist.h \
+ /usr/lib/llvm-18/include/llvm/ADT/simple_ilist.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist_base.h \
+ /usr/lib/llvm-18/include/llvm/ADT/ilist_iterator.h \
+ /usr/lib/llvm-18/include/llvm/IR/DebugProgramInstruction.h \
+ /usr/lib/llvm-18/include/llvm/IR/DebugLoc.h \
+ /usr/lib/llvm-18/include/llvm/IR/TrackingMDRef.h \
+ /usr/lib/llvm-18/include/llvm/IR/Metadata.h \
+ /usr/lib/llvm-18/include/llvm/ADT/PointerUnion.h \
+ /usr/lib/llvm-18/include/llvm/IR/Constant.h \
+ /usr/lib/llvm-18/include/llvm/IR/User.h \
+ /usr/lib/llvm-18/include/llvm/IR/Metadata.def \
+ /usr/lib/llvm-18/include/llvm/IR/Instruction.h \
+ /usr/lib/llvm-18/include/llvm/ADT/Bitfields.h \
+ /usr/lib/llvm-18/include/llvm/IR/SymbolTableListTraits.h \
+ /usr/lib/llvm-18/include/llvm/Support/AtomicOrdering.h \
+ /usr/lib/llvm-18/include/llvm/IR/Instruction.def \
+ /usr/lib/llvm-18/include/llvm/IR/CallingConv.h \
+ /usr/lib/llvm-18/include/llvm/IR/GlobalObject.h \
+ /usr/lib/llvm-18/include/llvm/IR/GlobalValue.h \
+ /usr/lib/llvm-18/include/llvm/Support/MD5.h \
+ /usr/lib/llvm-18/include/llvm/Support/Endian.h \
+ /usr/lib/llvm-18/include/llvm/IR/OperandTraits.h \
+ /usr/lib/llvm-18/include/llvm/IR/GlobalAlias.h \
+ /usr/lib/llvm-18/include/llvm/IR/GlobalIFunc.h \
+ /usr/lib/llvm-18/include/llvm/IR/GlobalVariable.h \
+ /usr/lib/llvm-18/include/llvm/IR/ProfileSummary.h \
+ /usr/lib/llvm-18/include/llvm/IR/IRBuilder.h \
+ /usr/lib/llvm-18/include/llvm/IR/ConstantFolder.h \
+ /usr/lib/llvm-18/include/llvm/IR/Constants.h \
+ /usr/lib/llvm-18/include/llvm/ADT/APFloat.h \
+ /usr/lib/llvm-18/include/llvm/ADT/FloatingPointMode.h \
+ /usr/lib/llvm-18/include/llvm/ADT/StringSwitch.h \
+ /usr/lib/llvm-18/include/llvm/IR/Intrinsics.h \
+ /usr/lib/llvm-18/include/llvm/IR/IntrinsicEnums.inc \
+ /usr/lib/llvm-18/include/llvm/IR/ConstantFold.h \
+ /usr/lib/llvm-18/include/llvm/IR/InstrTypes.h \
+ /usr/lib/llvm-18/include/llvm/IR/IRBuilderFolder.h \
+ /usr/lib/llvm-18/include/llvm/IR/Operator.h \
+ /usr/lib/llvm-18/include/llvm/ADT/MapVector.h \
+ /usr/lib/llvm-18/include/llvm/IR/FMF.h \
+ /usr/lib/llvm-18/include/llvm/IR/FPEnv.h \
+ /usr/lib/llvm-18/include/llvm/IR/Instructions.h \
+ /usr/lib/llvm-18/include/llvm/IR/CFG.h \
+ /usr/lib/llvm-18/include/llvm/ADT/GraphTraits.h \
+ /usr/lib/llvm-18/include/llvm/IR/ValueHandle.h \
+ /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc

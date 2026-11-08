@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/emojilang.dir/lexer.cpp.o.d"
   "CMakeFiles/emojilang.dir/parser.cpp.o"
   "CMakeFiles/emojilang.dir/parser.cpp.o.d"
+  "CMakeFiles/emojilang.dir/src/codegen.cpp.o"
+  "CMakeFiles/emojilang.dir/src/codegen.cpp.o.d"
   "CMakeFiles/emojilang.dir/src/interp.cpp.o"
   "CMakeFiles/emojilang.dir/src/interp.cpp.o.d"
   "CMakeFiles/emojilang.dir/src/main.cpp.o"

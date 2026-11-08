@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/hasan/Desktop/CC_Project/src -I/home/hasan/Desktop/CC_Project/build
+CXX_INCLUDES = -I/home/hasan/Desktop/CC_Project/src -I/home/hasan/Desktop/CC_Project/build -I/usr/lib/llvm-18/include
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -std=gnu++17   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
 

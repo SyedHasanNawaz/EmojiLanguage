@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/hasan/Desktop/CC_Project/build/lexer.cpp" "CMakeFiles/emojilang.dir/lexer.cpp.o" "gcc" "CMakeFiles/emojilang.dir/lexer.cpp.o.d"
   "/home/hasan/Desktop/CC_Project/build/parser.cpp" "CMakeFiles/emojilang.dir/parser.cpp.o" "gcc" "CMakeFiles/emojilang.dir/parser.cpp.o.d"
+  "/home/hasan/Desktop/CC_Project/src/codegen.cpp" "CMakeFiles/emojilang.dir/src/codegen.cpp.o" "gcc" "CMakeFiles/emojilang.dir/src/codegen.cpp.o.d"
   "/home/hasan/Desktop/CC_Project/src/interp.cpp" "CMakeFiles/emojilang.dir/src/interp.cpp.o" "gcc" "CMakeFiles/emojilang.dir/src/interp.cpp.o.d"
   "/home/hasan/Desktop/CC_Project/src/main.cpp" "CMakeFiles/emojilang.dir/src/main.cpp.o" "gcc" "CMakeFiles/emojilang.dir/src/main.cpp.o.d"
   )

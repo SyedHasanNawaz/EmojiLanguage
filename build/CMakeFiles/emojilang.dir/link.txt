@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/emojilang.dir/parser.cpp.o CMakeFiles/emojilang.dir/lexer.cpp.o CMakeFiles/emojilang.dir/src/interp.cpp.o CMakeFiles/emojilang.dir/src/main.cpp.o -o emojilang 
+/usr/bin/c++ CMakeFiles/emojilang.dir/parser.cpp.o CMakeFiles/emojilang.dir/lexer.cpp.o CMakeFiles/emojilang.dir/src/interp.cpp.o CMakeFiles/emojilang.dir/src/codegen.cpp.o CMakeFiles/emojilang.dir/src/main.cpp.o -o emojilang  -Wl,-rpath,/usr/lib/llvm-18/lib /usr/lib/llvm-18/lib/libLLVM.so.1 
