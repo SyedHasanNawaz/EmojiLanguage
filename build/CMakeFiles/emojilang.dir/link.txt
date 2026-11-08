@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/emojilang.dir/parser.cpp.o CMakeFiles/emojilang.dir/lexer.cpp.o CMakeFiles/emojilang.dir/src/interp.cpp.o CMakeFiles/emojilang.dir/src/main.cpp.o -o emojilang 

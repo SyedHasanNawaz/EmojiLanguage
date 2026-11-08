@@ -1,0 +1,3 @@
+/home/hasan/Desktop/CC_Project/build/CMakeFiles/emojilang.dir
+/home/hasan/Desktop/CC_Project/build/CMakeFiles/edit_cache.dir
+/home/hasan/Desktop/CC_Project/build/CMakeFiles/rebuild_cache.dir
