@@ -6,25 +6,26 @@
 #include <vector>
 #include <memory>
 
+using namespace std;
+
 int yylex();
 void yyerror(const char* s);
 extern int yylineno;
-extern std::unique_ptr<Program> g_program;
+extern unique_ptr<Program> g_program;
 %}
 
 %locations
 
 %union {
     long long num;
-    std::string* str;
+    string* str;
     Expr* expr;
     Stmt* stmt;
     BlockStmt* block;
-    std::vector<std::unique_ptr<Stmt>>* stmt_list;
-    std::vector<std::unique_ptr<Expr>>* expr_list;
-    std::vector<std::string>* str_list;
+    vector<unique_ptr<Stmt>>* stmt_list;
+    vector<unique_ptr<Expr>>* expr_list;
+    vector<string>* str_list;
 }
-
 
 %token TOKEN_DECL TOKEN_ASSIGN TOKEN_IF TOKEN_ELSE TOKEN_WHILE
 %token TOKEN_FUNCDEF TOKEN_RETURN TOKEN_PRINT TOKEN_BOX TOKEN_INDEX
@@ -46,22 +47,22 @@ extern std::unique_ptr<Program> g_program;
 
 program   : stmts
             {
-                g_program = std::make_unique<Program>(std::move(*$1), @$.first_line);
+                g_program = make_unique<Program>(move(*$1), @$.first_line);
                 delete $1;
             }
           ;
 
 stmts     : stmt
             {
-                $$ = new std::vector<std::unique_ptr<Stmt>>();
+                $$ = new vector<unique_ptr<Stmt>>();
                 if ($1) {
-                    $$->push_back(std::unique_ptr<Stmt>($1));
+                    $$->push_back(unique_ptr<Stmt>($1));
                 }
             }
           | stmts stmt
             {
                 if ($2) {
-                    $1->push_back(std::unique_ptr<Stmt>($2));
+                    $1->push_back(unique_ptr<Stmt>($2));
                 }
                 $$ = $1;
             }
@@ -74,48 +75,48 @@ stmt      : decl      { $$ = $1; }
           | funcdef   { $$ = $1; }
           | retstmt   { $$ = $1; }
           | printstmt { $$ = $1; }
-          | expr      { $$ = new ExprStmt(std::unique_ptr<Expr>($1), @$.first_line); }
+          | expr      { $$ = new ExprStmt(unique_ptr<Expr>($1), @$.first_line); }
           | ';'       { $$ = nullptr; }
           ;
 
 decl      : TOKEN_DECL TOKEN_ID '=' expr
             {
-                $$ = new DeclStmt(*$2, std::unique_ptr<Expr>($4), @$.first_line);
+                $$ = new DeclStmt(*$2, unique_ptr<Expr>($4), @$.first_line);
                 delete $2;
             }
           ;
 
 assign    : TOKEN_ASSIGN TOKEN_ID '=' expr
             {
-                $$ = new AssignStmt(*$2, std::unique_ptr<Expr>($4), true, @$.first_line);
+                $$ = new AssignStmt(*$2, unique_ptr<Expr>($4), true, @$.first_line);
                 delete $2;
             }
           | TOKEN_ID '=' expr
             {
-                $$ = new AssignStmt(*$1, std::unique_ptr<Expr>($3), false, @$.first_line);
+                $$ = new AssignStmt(*$1, unique_ptr<Expr>($3), false, @$.first_line);
                 delete $1;
             }
           ;
 
 ifstmt    : TOKEN_IF expr block
             {
-                $$ = new IfStmt(std::unique_ptr<Expr>($2), std::unique_ptr<BlockStmt>($3), nullptr, @$.first_line);
+                $$ = new IfStmt(unique_ptr<Expr>($2), unique_ptr<BlockStmt>($3), nullptr, @$.first_line);
             }
           | TOKEN_IF expr block TOKEN_ELSE block
             {
-                $$ = new IfStmt(std::unique_ptr<Expr>($2), std::unique_ptr<BlockStmt>($3), std::unique_ptr<BlockStmt>($5), @$.first_line);
+                $$ = new IfStmt(unique_ptr<Expr>($2), unique_ptr<BlockStmt>($3), unique_ptr<BlockStmt>($5), @$.first_line);
             }
           ;
 
 whilestmt : TOKEN_WHILE expr block
             {
-                $$ = new WhileStmt(std::unique_ptr<Expr>($2), std::unique_ptr<BlockStmt>($3), @$.first_line);
+                $$ = new WhileStmt(unique_ptr<Expr>($2), unique_ptr<BlockStmt>($3), @$.first_line);
             }
           ;
 
 funcdef   : TOKEN_FUNCDEF TOKEN_ID '(' params ')' block
             {
-                $$ = new FuncDefStmt(*$2, std::move(*$4), std::unique_ptr<BlockStmt>($6), @$.first_line);
+                $$ = new FuncDefStmt(*$2, move(*$4), unique_ptr<BlockStmt>($6), @$.first_line);
                 delete $2;
                 delete $4;
             }
@@ -123,19 +124,19 @@ funcdef   : TOKEN_FUNCDEF TOKEN_ID '(' params ')' block
 
 retstmt   : TOKEN_RETURN expr
             {
-                $$ = new ReturnStmt(std::unique_ptr<Expr>($2), @$.first_line);
+                $$ = new ReturnStmt(unique_ptr<Expr>($2), @$.first_line);
             }
           ;
 
 printstmt : TOKEN_PRINT expr
             {
-                $$ = new PrintStmt(std::unique_ptr<Expr>($2), @$.first_line);
+                $$ = new PrintStmt(unique_ptr<Expr>($2), @$.first_line);
             }
           ;
 
 block     : '{' stmts '}'
             {
-                $$ = new BlockStmt(std::move(*$2), @$.first_line);
+                $$ = new BlockStmt(move(*$2), @$.first_line);
                 delete $2;
             }
           | '{' '}'
@@ -144,9 +145,9 @@ block     : '{' stmts '}'
             }
           ;
 
-params    : /* empty */
+params    : 
             {
-                $$ = new std::vector<std::string>();
+                $$ = new vector<string>();
             }
           | param_list
             {
@@ -156,7 +157,7 @@ params    : /* empty */
 
 param_list: TOKEN_ID
             {
-                $$ = new std::vector<std::string>();
+                $$ = new vector<string>();
                 $$->push_back(*$1);
                 delete $1;
             }
@@ -180,7 +181,7 @@ logical_or: logical_and
             }
           | logical_or TOKEN_OR logical_and
             {
-                $$ = new BinOpExpr("||", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("||", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           ;
 
@@ -190,7 +191,7 @@ logical_and: equality
              }
            | logical_and TOKEN_AND equality
              {
-                 $$ = new BinOpExpr("&&", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                 $$ = new BinOpExpr("&&", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
              }
            ;
 
@@ -200,11 +201,11 @@ equality  : relational
             }
           | equality TOKEN_EQ relational
             {
-                $$ = new BinOpExpr("==", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("==", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | equality TOKEN_NE relational
             {
-                $$ = new BinOpExpr("!=", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("!=", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           ;
 
@@ -214,19 +215,19 @@ relational: additive
             }
           | relational TOKEN_LT additive
             {
-                $$ = new BinOpExpr("<", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("<", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | relational TOKEN_GT additive
             {
-                $$ = new BinOpExpr(">", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr(">", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | relational TOKEN_LE additive
             {
-                $$ = new BinOpExpr("<=", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("<=", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | relational TOKEN_GE additive
             {
-                $$ = new BinOpExpr(">=", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr(">=", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           ;
 
@@ -236,19 +237,19 @@ additive  : multiplicative
             }
           | additive '+' multiplicative
             {
-                $$ = new BinOpExpr("+", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("+", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | additive TOKEN_PLUS multiplicative
             {
-                $$ = new BinOpExpr("+", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("+", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | additive '-' multiplicative
             {
-                $$ = new BinOpExpr("-", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("-", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           | additive TOKEN_MINUS multiplicative
             {
-                $$ = new BinOpExpr("-", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new BinOpExpr("-", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
             }
           ;
 
@@ -258,37 +259,37 @@ multiplicative: unary
                 }
               | multiplicative '*' unary
                 {
-                    $$ = new BinOpExpr("*", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("*", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               | multiplicative TOKEN_MUL unary
                 {
-                    $$ = new BinOpExpr("*", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("*", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               | multiplicative '/' unary
                 {
-                    $$ = new BinOpExpr("/", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("/", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               | multiplicative TOKEN_DIV unary
                 {
-                    $$ = new BinOpExpr("/", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("/", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               | multiplicative '%' unary
                 {
-                    $$ = new BinOpExpr("%", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("%", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               | multiplicative TOKEN_MOD unary
                 {
-                    $$ = new BinOpExpr("%", std::unique_ptr<Expr>($1), std::unique_ptr<Expr>($3), @$.first_line);
+                    $$ = new BinOpExpr("%", unique_ptr<Expr>($1), unique_ptr<Expr>($3), @$.first_line);
                 }
               ;
 
 unary     : '-' unary
             {
-                $$ = new BinOpExpr("-", std::make_unique<NumExpr>(0, @$.first_line), std::unique_ptr<Expr>($2), @$.first_line);
+                $$ = new BinOpExpr("-", make_unique<NumExpr>(0, @$.first_line), unique_ptr<Expr>($2), @$.first_line);
             }
           | TOKEN_MINUS unary
             {
-                $$ = new BinOpExpr("-", std::make_unique<NumExpr>(0, @$.first_line), std::unique_ptr<Expr>($2), @$.first_line);
+                $$ = new BinOpExpr("-", make_unique<NumExpr>(0, @$.first_line), unique_ptr<Expr>($2), @$.first_line);
             }
           | primary
             {
@@ -307,26 +308,26 @@ primary   : TOKEN_INT
             }
           | TOKEN_ID '(' args ')'
             {
-                $$ = new CallExpr(*$1, std::move(*$3), @$.first_line);
+                $$ = new CallExpr(*$1, move(*$3), @$.first_line);
                 delete $1;
                 delete $3;
             }
           | TOKEN_BOX '[' args ']'
             {
-                $$ = new ArrayLitExpr(std::move(*$3), @$.first_line);
+                $$ = new ArrayLitExpr(move(*$3), @$.first_line);
                 delete $3;
             }
           | TOKEN_INDEX '(' expr ',' expr ')'
             {
-                $$ = new IndexExpr(std::unique_ptr<Expr>($3), std::unique_ptr<Expr>($5), @$.first_line);
+                $$ = new IndexExpr(unique_ptr<Expr>($3), unique_ptr<Expr>($5), @$.first_line);
             }
           | TOKEN_LEN '(' expr ')'
             {
-                $$ = new LenExpr(std::unique_ptr<Expr>($3), @$.first_line);
+                $$ = new LenExpr(unique_ptr<Expr>($3), @$.first_line);
             }
           | TOKEN_SLICE '(' expr ',' expr ',' expr ')'
             {
-                $$ = new SliceExpr(std::unique_ptr<Expr>($3), std::unique_ptr<Expr>($5), std::unique_ptr<Expr>($7), @$.first_line);
+                $$ = new SliceExpr(unique_ptr<Expr>($3), unique_ptr<Expr>($5), unique_ptr<Expr>($7), @$.first_line);
             }
           | '(' expr ')'
             {
@@ -334,9 +335,9 @@ primary   : TOKEN_INT
             }
           ;
 
-args      : /* empty */
+args      : 
             {
-                $$ = new std::vector<std::unique_ptr<Expr>>();
+                $$ = new vector<unique_ptr<Expr>>();
             }
           | arg_list
             {
@@ -346,12 +347,12 @@ args      : /* empty */
 
 arg_list  : expr
             {
-                $$ = new std::vector<std::unique_ptr<Expr>>();
-                $$->push_back(std::unique_ptr<Expr>($1));
+                $$ = new vector<unique_ptr<Expr>>();
+                $$->push_back(unique_ptr<Expr>($1));
             }
           | arg_list ',' expr
             {
-                $1->push_back(std::unique_ptr<Expr>($3));
+                $1->push_back(unique_ptr<Expr>($3));
                 $$ = $1;
             }
           ;
@@ -359,5 +360,5 @@ arg_list  : expr
 %%
 
 void yyerror(const char* s) {
-    std::cerr << "Syntax error at line " << yylloc.first_line << ": " << s << "\n";
+    cerr << "Syntax error at line " << yylloc.first_line << ": " << s << "\n";
 }

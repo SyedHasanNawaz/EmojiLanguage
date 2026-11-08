@@ -75,12 +75,14 @@
 #include <vector>
 #include <memory>
 
+using namespace std;
+
 int yylex();
 void yyerror(const char* s);
 extern int yylineno;
-extern std::unique_ptr<Program> g_program;
+extern unique_ptr<Program> g_program;
 
-#line 84 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 86 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -568,13 +570,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    47,    47,    54,    61,    70,    71,    72,    73,    74,
-      75,    76,    77,    78,    81,    88,    93,   100,   104,   110,
-     116,   124,   130,   136,   141,   148,   151,   157,   163,   171,
-     177,   181,   187,   191,   197,   201,   205,   211,   215,   219,
-     223,   227,   233,   237,   241,   245,   249,   255,   259,   263,
-     267,   271,   275,   279,   285,   289,   293,   299,   303,   308,
-     314,   319,   323,   327,   331,   338,   341,   347,   352
+       0,    48,    48,    55,    62,    71,    72,    73,    74,    75,
+      76,    77,    78,    79,    82,    89,    94,   101,   105,   111,
+     117,   125,   131,   137,   142,   149,   152,   158,   164,   172,
+     178,   182,   188,   192,   198,   202,   206,   212,   216,   220,
+     224,   228,   234,   238,   242,   246,   250,   256,   260,   264,
+     268,   272,   276,   280,   286,   290,   294,   300,   304,   309,
+     315,   320,   324,   328,   332,   339,   342,   348,   353
 };
 #endif
 
@@ -1343,548 +1345,548 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: stmts  */
-#line 48 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 49 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                g_program = std::make_unique<Program>(std::move(*(yyvsp[0].stmt_list)), (yyloc).first_line);
+                g_program = make_unique<Program>(move(*(yyvsp[0].stmt_list)), (yyloc).first_line);
                 delete (yyvsp[0].stmt_list);
             }
-#line 1352 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1354 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 3: /* stmts: stmt  */
-#line 55 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 56 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt_list) = new std::vector<std::unique_ptr<Stmt>>();
+                (yyval.stmt_list) = new vector<unique_ptr<Stmt>>();
                 if ((yyvsp[0].stmt)) {
-                    (yyval.stmt_list)->push_back(std::unique_ptr<Stmt>((yyvsp[0].stmt)));
+                    (yyval.stmt_list)->push_back(unique_ptr<Stmt>((yyvsp[0].stmt)));
                 }
             }
-#line 1363 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1365 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 4: /* stmts: stmts stmt  */
-#line 62 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 63 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 if ((yyvsp[0].stmt)) {
-                    (yyvsp[-1].stmt_list)->push_back(std::unique_ptr<Stmt>((yyvsp[0].stmt)));
+                    (yyvsp[-1].stmt_list)->push_back(unique_ptr<Stmt>((yyvsp[0].stmt)));
                 }
                 (yyval.stmt_list) = (yyvsp[-1].stmt_list);
             }
-#line 1374 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1376 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 5: /* stmt: decl  */
-#line 70 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 71 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1380 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1382 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 6: /* stmt: assign  */
-#line 71 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 72 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1386 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1388 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 7: /* stmt: ifstmt  */
-#line 72 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 73 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1392 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1394 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 8: /* stmt: whilestmt  */
-#line 73 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 74 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1398 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1400 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 9: /* stmt: funcdef  */
-#line 74 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 75 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1404 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1406 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 10: /* stmt: retstmt  */
-#line 75 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 76 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1410 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1412 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 11: /* stmt: printstmt  */
-#line 76 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 77 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1416 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1418 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 12: /* stmt: expr  */
-#line 77 "/home/hasan/Desktop/CC_Project/src/parser.y"
-                      { (yyval.stmt) = new ExprStmt(std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line); }
-#line 1422 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 78 "/home/hasan/Desktop/CC_Project/src/parser.y"
+                      { (yyval.stmt) = new ExprStmt(unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line); }
+#line 1424 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 13: /* stmt: ';'  */
-#line 78 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 79 "/home/hasan/Desktop/CC_Project/src/parser.y"
                       { (yyval.stmt) = nullptr; }
-#line 1428 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1430 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 14: /* decl: TOKEN_DECL TOKEN_ID '=' expr  */
-#line 82 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 83 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new DeclStmt(*(yyvsp[-2].str), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.stmt) = new DeclStmt(*(yyvsp[-2].str), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 delete (yyvsp[-2].str);
             }
-#line 1437 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1439 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 15: /* assign: TOKEN_ASSIGN TOKEN_ID '=' expr  */
-#line 89 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 90 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new AssignStmt(*(yyvsp[-2].str), std::unique_ptr<Expr>((yyvsp[0].expr)), true, (yyloc).first_line);
+                (yyval.stmt) = new AssignStmt(*(yyvsp[-2].str), unique_ptr<Expr>((yyvsp[0].expr)), true, (yyloc).first_line);
                 delete (yyvsp[-2].str);
             }
-#line 1446 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1448 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 16: /* assign: TOKEN_ID '=' expr  */
-#line 94 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 95 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new AssignStmt(*(yyvsp[-2].str), std::unique_ptr<Expr>((yyvsp[0].expr)), false, (yyloc).first_line);
+                (yyval.stmt) = new AssignStmt(*(yyvsp[-2].str), unique_ptr<Expr>((yyvsp[0].expr)), false, (yyloc).first_line);
                 delete (yyvsp[-2].str);
             }
-#line 1455 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1457 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 17: /* ifstmt: TOKEN_IF expr block  */
-#line 101 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 102 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new IfStmt(std::unique_ptr<Expr>((yyvsp[-1].expr)), std::unique_ptr<BlockStmt>((yyvsp[0].block)), nullptr, (yyloc).first_line);
+                (yyval.stmt) = new IfStmt(unique_ptr<Expr>((yyvsp[-1].expr)), unique_ptr<BlockStmt>((yyvsp[0].block)), nullptr, (yyloc).first_line);
             }
-#line 1463 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1465 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 18: /* ifstmt: TOKEN_IF expr block TOKEN_ELSE block  */
-#line 105 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 106 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new IfStmt(std::unique_ptr<Expr>((yyvsp[-3].expr)), std::unique_ptr<BlockStmt>((yyvsp[-2].block)), std::unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
+                (yyval.stmt) = new IfStmt(unique_ptr<Expr>((yyvsp[-3].expr)), unique_ptr<BlockStmt>((yyvsp[-2].block)), unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
             }
-#line 1471 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1473 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 19: /* whilestmt: TOKEN_WHILE expr block  */
-#line 111 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 112 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new WhileStmt(std::unique_ptr<Expr>((yyvsp[-1].expr)), std::unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
+                (yyval.stmt) = new WhileStmt(unique_ptr<Expr>((yyvsp[-1].expr)), unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
             }
-#line 1479 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1481 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 20: /* funcdef: TOKEN_FUNCDEF TOKEN_ID '(' params ')' block  */
-#line 117 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 118 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new FuncDefStmt(*(yyvsp[-4].str), std::move(*(yyvsp[-2].str_list)), std::unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
+                (yyval.stmt) = new FuncDefStmt(*(yyvsp[-4].str), move(*(yyvsp[-2].str_list)), unique_ptr<BlockStmt>((yyvsp[0].block)), (yyloc).first_line);
                 delete (yyvsp[-4].str);
                 delete (yyvsp[-2].str_list);
             }
-#line 1489 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1491 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 21: /* retstmt: TOKEN_RETURN expr  */
-#line 125 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 126 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new ReturnStmt(std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.stmt) = new ReturnStmt(unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1497 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1499 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 22: /* printstmt: TOKEN_PRINT expr  */
-#line 131 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 132 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.stmt) = new PrintStmt(std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.stmt) = new PrintStmt(unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1505 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1507 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 23: /* block: '{' stmts '}'  */
-#line 137 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 138 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.block) = new BlockStmt(std::move(*(yyvsp[-1].stmt_list)), (yyloc).first_line);
+                (yyval.block) = new BlockStmt(move(*(yyvsp[-1].stmt_list)), (yyloc).first_line);
                 delete (yyvsp[-1].stmt_list);
             }
-#line 1514 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1516 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 24: /* block: '{' '}'  */
-#line 142 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 143 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.block) = new BlockStmt({}, (yyloc).first_line);
             }
-#line 1522 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1524 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 25: /* params: %empty  */
-#line 148 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 149 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.str_list) = new std::vector<std::string>();
+                (yyval.str_list) = new vector<string>();
             }
-#line 1530 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1532 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 26: /* params: param_list  */
-#line 152 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 153 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.str_list) = (yyvsp[0].str_list);
             }
-#line 1538 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1540 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 27: /* param_list: TOKEN_ID  */
-#line 158 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 159 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.str_list) = new std::vector<std::string>();
+                (yyval.str_list) = new vector<string>();
                 (yyval.str_list)->push_back(*(yyvsp[0].str));
                 delete (yyvsp[0].str);
             }
-#line 1548 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1550 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 28: /* param_list: param_list ',' TOKEN_ID  */
-#line 164 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 165 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyvsp[-2].str_list)->push_back(*(yyvsp[0].str));
                 delete (yyvsp[0].str);
                 (yyval.str_list) = (yyvsp[-2].str_list);
             }
-#line 1558 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1560 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 29: /* expr: logical_or  */
-#line 172 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 173 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1566 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1568 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 30: /* logical_or: logical_and  */
-#line 178 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 179 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1574 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1576 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 31: /* logical_or: logical_or TOKEN_OR logical_and  */
-#line 182 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 183 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("||", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("||", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1582 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1584 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 32: /* logical_and: equality  */
-#line 188 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 189 "/home/hasan/Desktop/CC_Project/src/parser.y"
              {
                  (yyval.expr) = (yyvsp[0].expr);
              }
-#line 1590 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1592 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 33: /* logical_and: logical_and TOKEN_AND equality  */
-#line 192 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 193 "/home/hasan/Desktop/CC_Project/src/parser.y"
              {
-                 (yyval.expr) = new BinOpExpr("&&", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                 (yyval.expr) = new BinOpExpr("&&", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
              }
-#line 1598 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1600 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 34: /* equality: relational  */
-#line 198 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 199 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1606 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1608 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 35: /* equality: equality TOKEN_EQ relational  */
-#line 202 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 203 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("==", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("==", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1614 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1616 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 36: /* equality: equality TOKEN_NE relational  */
-#line 206 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 207 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("!=", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("!=", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1622 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1624 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 37: /* relational: additive  */
-#line 212 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 213 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1630 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1632 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 38: /* relational: relational TOKEN_LT additive  */
-#line 216 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 217 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("<", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("<", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1638 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1640 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 39: /* relational: relational TOKEN_GT additive  */
-#line 220 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 221 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr(">", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr(">", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1646 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1648 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 40: /* relational: relational TOKEN_LE additive  */
-#line 224 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 225 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("<=", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("<=", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1654 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1656 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 41: /* relational: relational TOKEN_GE additive  */
-#line 228 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 229 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr(">=", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr(">=", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1662 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1664 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 42: /* additive: multiplicative  */
-#line 234 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 235 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1670 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1672 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 43: /* additive: additive '+' multiplicative  */
-#line 238 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 239 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("+", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("+", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1678 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1680 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 44: /* additive: additive TOKEN_PLUS multiplicative  */
-#line 242 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 243 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("+", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("+", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1686 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1688 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 45: /* additive: additive '-' multiplicative  */
-#line 246 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 247 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("-", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("-", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1694 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1696 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 46: /* additive: additive TOKEN_MINUS multiplicative  */
-#line 250 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 251 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("-", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("-", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1702 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1704 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 47: /* multiplicative: unary  */
-#line 256 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 257 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
                     (yyval.expr) = (yyvsp[0].expr);
                 }
-#line 1710 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1712 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 48: /* multiplicative: multiplicative '*' unary  */
-#line 260 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 261 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("*", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("*", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1718 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1720 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 49: /* multiplicative: multiplicative TOKEN_MUL unary  */
-#line 264 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 265 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("*", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("*", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1726 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1728 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 50: /* multiplicative: multiplicative '/' unary  */
-#line 268 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 269 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("/", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("/", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1734 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1736 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 51: /* multiplicative: multiplicative TOKEN_DIV unary  */
-#line 272 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 273 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("/", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("/", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1742 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1744 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 52: /* multiplicative: multiplicative '%' unary  */
-#line 276 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 277 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("%", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("%", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1750 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1752 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 53: /* multiplicative: multiplicative TOKEN_MOD unary  */
-#line 280 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 281 "/home/hasan/Desktop/CC_Project/src/parser.y"
                 {
-                    (yyval.expr) = new BinOpExpr("%", std::unique_ptr<Expr>((yyvsp[-2].expr)), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                    (yyval.expr) = new BinOpExpr("%", unique_ptr<Expr>((yyvsp[-2].expr)), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
                 }
-#line 1758 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1760 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 54: /* unary: '-' unary  */
-#line 286 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 287 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("-", std::make_unique<NumExpr>(0, (yyloc).first_line), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("-", make_unique<NumExpr>(0, (yyloc).first_line), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1766 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1768 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 55: /* unary: TOKEN_MINUS unary  */
-#line 290 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 291 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new BinOpExpr("-", std::make_unique<NumExpr>(0, (yyloc).first_line), std::unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
+                (yyval.expr) = new BinOpExpr("-", make_unique<NumExpr>(0, (yyloc).first_line), unique_ptr<Expr>((yyvsp[0].expr)), (yyloc).first_line);
             }
-#line 1774 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1776 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 56: /* unary: primary  */
-#line 294 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 295 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[0].expr);
             }
-#line 1782 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1784 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 57: /* primary: TOKEN_INT  */
-#line 300 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 301 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = new NumExpr((yyvsp[0].num), (yyloc).first_line);
             }
-#line 1790 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1792 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 58: /* primary: TOKEN_ID  */
-#line 304 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 305 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = new VarExpr(*(yyvsp[0].str), (yyloc).first_line);
                 delete (yyvsp[0].str);
             }
-#line 1799 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1801 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 59: /* primary: TOKEN_ID '(' args ')'  */
-#line 309 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 310 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new CallExpr(*(yyvsp[-3].str), std::move(*(yyvsp[-1].expr_list)), (yyloc).first_line);
+                (yyval.expr) = new CallExpr(*(yyvsp[-3].str), move(*(yyvsp[-1].expr_list)), (yyloc).first_line);
                 delete (yyvsp[-3].str);
                 delete (yyvsp[-1].expr_list);
             }
-#line 1809 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1811 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 60: /* primary: TOKEN_BOX '[' args ']'  */
-#line 315 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 316 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new ArrayLitExpr(std::move(*(yyvsp[-1].expr_list)), (yyloc).first_line);
+                (yyval.expr) = new ArrayLitExpr(move(*(yyvsp[-1].expr_list)), (yyloc).first_line);
                 delete (yyvsp[-1].expr_list);
             }
-#line 1818 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1820 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 61: /* primary: TOKEN_INDEX '(' expr ',' expr ')'  */
-#line 320 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 321 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new IndexExpr(std::unique_ptr<Expr>((yyvsp[-3].expr)), std::unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
+                (yyval.expr) = new IndexExpr(unique_ptr<Expr>((yyvsp[-3].expr)), unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
             }
-#line 1826 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1828 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 62: /* primary: TOKEN_LEN '(' expr ')'  */
-#line 324 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 325 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new LenExpr(std::unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
+                (yyval.expr) = new LenExpr(unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
             }
-#line 1834 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1836 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 63: /* primary: TOKEN_SLICE '(' expr ',' expr ',' expr ')'  */
-#line 328 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 329 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr) = new SliceExpr(std::unique_ptr<Expr>((yyvsp[-5].expr)), std::unique_ptr<Expr>((yyvsp[-3].expr)), std::unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
+                (yyval.expr) = new SliceExpr(unique_ptr<Expr>((yyvsp[-5].expr)), unique_ptr<Expr>((yyvsp[-3].expr)), unique_ptr<Expr>((yyvsp[-1].expr)), (yyloc).first_line);
             }
-#line 1842 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1844 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 64: /* primary: '(' expr ')'  */
-#line 332 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 333 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr) = (yyvsp[-1].expr);
             }
-#line 1850 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1852 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 65: /* args: %empty  */
-#line 338 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 339 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr_list) = new std::vector<std::unique_ptr<Expr>>();
+                (yyval.expr_list) = new vector<unique_ptr<Expr>>();
             }
-#line 1858 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1860 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 66: /* args: arg_list  */
-#line 342 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 343 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
                 (yyval.expr_list) = (yyvsp[0].expr_list);
             }
-#line 1866 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1868 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 67: /* arg_list: expr  */
-#line 348 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 349 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyval.expr_list) = new std::vector<std::unique_ptr<Expr>>();
-                (yyval.expr_list)->push_back(std::unique_ptr<Expr>((yyvsp[0].expr)));
+                (yyval.expr_list) = new vector<unique_ptr<Expr>>();
+                (yyval.expr_list)->push_back(unique_ptr<Expr>((yyvsp[0].expr)));
             }
-#line 1875 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1877 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
   case 68: /* arg_list: arg_list ',' expr  */
-#line 353 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 354 "/home/hasan/Desktop/CC_Project/src/parser.y"
             {
-                (yyvsp[-2].expr_list)->push_back(std::unique_ptr<Expr>((yyvsp[0].expr)));
+                (yyvsp[-2].expr_list)->push_back(unique_ptr<Expr>((yyvsp[0].expr)));
                 (yyval.expr_list) = (yyvsp[-2].expr_list);
             }
-#line 1884 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1886 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
     break;
 
 
-#line 1888 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
+#line 1890 "/home/hasan/Desktop/CC_Project/build/parser.cpp"
 
       default: break;
     }
@@ -2082,9 +2084,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 359 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 360 "/home/hasan/Desktop/CC_Project/src/parser.y"
 
 
 void yyerror(const char* s) {
-    std::cerr << "Syntax error at line " << yylloc.first_line << ": " << s << "\n";
+    cerr << "Syntax error at line " << yylloc.first_line << ": " << s << "\n";
 }

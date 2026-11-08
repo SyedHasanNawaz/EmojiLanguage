@@ -89,16 +89,16 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "/home/hasan/Desktop/CC_Project/src/parser.y"
+#line 19 "/home/hasan/Desktop/CC_Project/src/parser.y"
 
     long long num;
-    std::string* str;
+    string* str;
     Expr* expr;
     Stmt* stmt;
     BlockStmt* block;
-    std::vector<std::unique_ptr<Stmt>>* stmt_list;
-    std::vector<std::unique_ptr<Expr>>* expr_list;
-    std::vector<std::string>* str_list;
+    vector<unique_ptr<Stmt>>* stmt_list;
+    vector<unique_ptr<Expr>>* expr_list;
+    vector<string>* str_list;
 
 #line 104 "/home/hasan/Desktop/CC_Project/build/parser.h"
 

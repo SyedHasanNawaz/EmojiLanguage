@@ -7,61 +7,68 @@
 #include <cstdio>
 #include <string>
 
+using namespace std;
+
 extern int yyparse();
 extern FILE* yyin;
 
-std::unique_ptr<Program> g_program;
+unique_ptr<Program> g_program;
 
 int main(int argc, char* argv[]) {
-    bool mode_ir = false;
-    bool mode_aot = false;
-    std::string output_path = "a.out";
-    std::string input_file = "";
+    bool is_ir = false;
+    bool is_aot = false;
+    string out_file = "a.out";
+    string in_file = "";
 
     for (int i = 1; i < argc; ++i) {
-        std::string arg = argv[i];
-        if (arg == "--ir") {
-            mode_ir = true;
-        } else if (arg == "--aot") {
-            mode_aot = true;
-        } else if (arg == "-o") {
+        string s = argv[i];
+        if (s == "--ir") {
+            is_ir = true;
+        } 
+        else if (s == "--aot") {
+            is_aot = true;
+        } 
+        else if (s == "-o") {
             if (i + 1 < argc) {
-                output_path = argv[++i];
+                out_file = argv[++i];
             } else {
-                std::cerr << "Error: -o option requires an argument\n";
+                cerr << "Error: -o option requires an argument\n";
                 return 1;
             }
-        } else if (arg == "-h" || arg == "--help") {
-            std::cout << "Usage:\n";
-            std::cout << "  " << argv[0] << " <file.emoji>              Interpret (Phase 1)\n";
-            std::cout << "  " << argv[0] << " --ir <file.emoji>         Print LLVM IR to stdout\n";
-            std::cout << "  " << argv[0] << " --aot <file.emoji> -o out Compile to native executable\n";
+        } 
+        else if (s == "-h" || s == "--help") {
+            cout << "Usage:\n";
+            cout << "  " << argv[0] << " <file.emoji>\n";
+            cout << "  " << argv[0] << " --ir <file.emoji>\n";
+            cout << "  " << argv[0] << " --aot <file.emoji> -o out\n";
             return 0;
-        } else if (input_file.empty()) {
-            input_file = arg;
-        } else {
-            std::cerr << "Error: Unexpected argument: " << arg << "\n";
+        } 
+        else if (in_file.empty()) {
+            in_file = s;
+        } 
+        else {
+            cerr << "Error: Unexpected argument: " << s << "\n";
             return 1;
         }
     }
 
-    FILE* file = nullptr;
-    if (!input_file.empty() && input_file != "-") {
-        file = std::fopen(input_file.c_str(), "r");
-        if (!file) {
-            std::cerr << "Error: Could not open file '" << input_file << "'\n";
+    FILE* f = nullptr;
+    if (!in_file.empty() && in_file != "-") {
+        f = fopen(in_file.c_str(), "r");
+        if (!f) {
+            cerr << "Error: Could not open file '" << in_file << "'\n";
             return 1;
         }
-        yyin = file;
+        yyin = f;
     }
 
-    int parse_res = yyparse();
+    int res = yyparse();
 
-    if (file) {
-        std::fclose(file);
+    if (f) {
+        fclose(f);
     }
 
-    if (parse_res != 0) {
+    if (res != 0) {
         return 1;
     }
 
@@ -70,25 +77,27 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        if (mode_ir) {
-            CodeGen codegen;
-            codegen.generate(*g_program);
-            codegen.dump_ir(std::cout);
-        } else if (mode_aot) {
-            CodeGen codegen;
-            codegen.generate(*g_program);
-            if (!codegen.emit_native(output_path)) {
+        if (is_ir) {
+            CodeGen cg;
+            cg.generate(*g_program);
+            cg.dump_ir(cout);
+        } 
+        else if (is_aot) {
+            CodeGen cg;
+            cg.generate(*g_program);
+            if (!cg.emit_native(out_file)) {
                 return 1;
             }
-        } else {
+        } 
+        else {
             Interpreter interp;
             interp.execute_program(*g_program);
         }
-    } catch (const std::runtime_error& e) {
-        std::cerr << e.what() << "\n";
+    } catch (const runtime_error& e) {
+        cerr << e.what() << "\n";
         return 1;
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << "\n";
         return 1;
     }
 

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ast.h"
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
@@ -10,6 +11,8 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+
+using namespace std;
 
 enum class TypeKind {
     Unknown,
@@ -23,8 +26,8 @@ struct VarInfo {
 };
 
 struct FuncInfo {
-    std::string name;
-    std::vector<TypeKind> param_types;
+    string name;
+    vector<TypeKind> param_types;
     TypeKind ret_type = TypeKind::Unknown;
     const FuncDefStmt* ast_node = nullptr;
     llvm::Function* llvm_fn = nullptr;
@@ -36,14 +39,14 @@ public:
     ~CodeGen() = default;
 
     void generate(const Program& program);
-    void dump_ir(std::ostream& os);
+    void dump_ir(ostream& os);
     void print_ir();
-    bool emit_object(const std::string& obj_path);
-    bool emit_native(const std::string& exe_path);
+    bool emit_object(const string& obj_path);
+    bool emit_native(const string& exe_path);
 
 private:
     llvm::LLVMContext ctx;
-    std::unique_ptr<llvm::Module> module;
+    unique_ptr<llvm::Module> module;
     llvm::IRBuilder<> builder;
 
     llvm::Type* i64_type = nullptr;
@@ -52,7 +55,6 @@ private:
     llvm::PointerType* ptr_type = nullptr;
     llvm::StructType* array_type = nullptr;
 
-    // Runtime helper functions
     llvm::Function* printf_fn = nullptr;
     llvm::Function* calloc_fn = nullptr;
     llvm::Function* free_fn = nullptr;
@@ -68,7 +70,6 @@ private:
     llvm::Function* array_eq_fn = nullptr;
     llvm::Function* array_ne_fn = nullptr;
 
-    // Global format string pointers
     llvm::Value* fmt_int_ptr = nullptr;
     llvm::Value* fmt_open_ptr = nullptr;
     llvm::Value* fmt_close_ptr = nullptr;
@@ -76,19 +77,18 @@ private:
     llvm::Value* fmt_elem_ptr = nullptr;
     llvm::Value* fmt_bounds_err_ptr = nullptr;
 
-    // Scope management
-    std::vector<std::unordered_map<std::string, VarInfo>> scopes;
-    std::unordered_map<std::string, FuncInfo> funcs;
+    vector<unordered_map<string, VarInfo>> scopes;
+    unordered_map<string, FuncInfo> funcs;
     llvm::Function* current_function = nullptr;
 
     void emit_runtime_helpers();
     void infer_types(const Program& program);
-    TypeKind infer_expr_type(const Expr& expr, const std::unordered_map<std::string, TypeKind>& local_types);
+    TypeKind infer_expr_type(const Expr& expr, const unordered_map<string, TypeKind>& local_types);
 
     void push_scope();
     void pop_scope();
-    VarInfo lookup_var(const std::string& name, int line);
-    llvm::AllocaInst* create_entry_block_alloca(llvm::Function* fn, const std::string& name, llvm::Type* type);
+    VarInfo lookup_var(const string& name, int line);
+    llvm::AllocaInst* create_entry_block_alloca(llvm::Function* fn, const string& name, llvm::Type* type);
 
     void codegen_func_def(const FuncDefStmt& func_def);
     void codegen_stmt(const Stmt& stmt);

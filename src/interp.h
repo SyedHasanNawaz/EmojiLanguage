@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ast.h"
 #include <variant>
 #include <vector>
@@ -7,7 +8,9 @@
 #include <iostream>
 #include <stdexcept>
 
-using Value = std::variant<long long, std::vector<long long>>;
+using namespace std;
+
+using Value = variant<long long, vector<long long>>;
 
 struct ReturnSignal {
     Value v;
@@ -24,14 +27,14 @@ public:
     void push_scope();
     void pop_scope();
 
-    Value get_var(const std::string& name, int line);
-    void set_var(const std::string& name, const Value& val, bool has_inbox, int line);
-    void declare_var(const std::string& name, const Value& val, int line);
+    Value get_var(const string& name, int line);
+    void set_var(const string& name, const Value& val, bool has_inbox, int line);
+    void declare_var(const string& name, const Value& val, int line);
 
     static bool is_truthy(const Value& v, int line);
-    static void print_value(std::ostream& os, const Value& val);
+    static void print_value(ostream& os, const Value& val);
 
 private:
-    std::vector<std::unordered_map<std::string, Value>> env;
-    std::unordered_map<std::string, const FuncDefStmt*> functions;
+    vector<unordered_map<string, Value>> env;
+    unordered_map<string, const FuncDefStmt*> functions;
 };

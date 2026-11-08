@@ -4,6 +4,8 @@
 #include <string>
 #include <cstdlib>
 
+using namespace std;
+
 #define YY_USER_ACTION \
     yylloc.first_line = yylloc.last_line = yylineno; \
     yylloc.first_column = yylloc.last_column + 1; \
@@ -61,15 +63,15 @@
 ","                    { return ','; }
 ";"                    { return ';'; }
 
-"💬"[^\r\n]*           { /* ignore single-line comments */ }
+"💬"[^\r\n]*           { }
 
 [0-9]+ {
-    yylval.num = std::stoll(yytext);
+    yylval.num = stoll(yytext);
     return TOKEN_INT;
 }
 
 [a-zA-Z_][a-zA-Z0-9_]* {
-    yylval.str = new std::string(yytext);
+    yylval.str = new string(yytext);
     return TOKEN_ID;
 }
 
@@ -78,7 +80,6 @@
 }
 
 [ \t\r]+ {
-    /* ignore whitespace */
 }
 
 . {

@@ -12,8 +12,10 @@
 #include <unistd.h>
 #include <stdexcept>
 
+using namespace std;
+
 CodeGen::CodeGen() : builder(ctx) {
-    module = std::make_unique<llvm::Module>("emojilang_module", ctx);
+    module = make_unique<llvm::Module>("emojilang_module", ctx);
 
     i64_type = llvm::Type::getInt64Ty(ctx);
     i32_type = llvm::Type::getInt32Ty(ctx);
@@ -48,7 +50,6 @@ void CodeGen::emit_runtime_helpers() {
     fmt_elem_ptr = builder.CreateGlobalString("%lld", ".fmt_elem", 0, module.get());
     fmt_bounds_err_ptr = builder.CreateGlobalString("Runtime Error: Array index out of bounds: %lld (length %lld)\n", ".fmt_bounds_err", 0, module.get());
 
-    // emojilang_print_int(i64)
     {
         auto* fn_ty = llvm::FunctionType::get(void_type, { i64_type }, false);
         print_int_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_print_int", module.get());
@@ -58,7 +59,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRetVoid();
     }
 
-    // emojilang_print_array({i64, ptr})
     {
         auto* fn_ty = llvm::FunctionType::get(void_type, { array_type }, false);
         print_array_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_print_array", module.get());
@@ -107,7 +107,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRetVoid();
     }
 
-    // emojilang_bounds_check(i64 idx, i64 len)
     {
         auto* fn_ty = llvm::FunctionType::get(void_type, { i64_type, i64_type }, false);
         bounds_check_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_bounds_check", module.get());
@@ -132,7 +131,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRetVoid();
     }
 
-    // emojilang_slice({i64, ptr}, i64, i64)
     {
         auto* fn_ty = llvm::FunctionType::get(array_type, { array_type, i64_type, i64_type }, false);
         slice_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_slice", module.get());
@@ -147,13 +145,11 @@ void CodeGen::emit_runtime_helpers() {
         auto* raw_s = slice_fn->getArg(1);
         auto* raw_e = slice_fn->getArg(2);
 
-        // s = max(0, min(raw_s, len))
         auto* s_lt_0 = b.CreateICmpSLT(raw_s, llvm::ConstantInt::get(i64_type, 0));
         auto* s1 = b.CreateSelect(s_lt_0, llvm::ConstantInt::get(i64_type, 0), raw_s);
         auto* s1_gt_len = b.CreateICmpSGT(s1, len);
         auto* s = b.CreateSelect(s1_gt_len, len, s1, "clamped.s");
 
-        // e = max(s, min(raw_e, len))
         auto* e_lt_s = b.CreateICmpSLT(raw_e, s);
         auto* e1 = b.CreateSelect(e_lt_s, s, raw_e);
         auto* e1_gt_len = b.CreateICmpSGT(e1, len);
@@ -188,7 +184,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRet(ret_struct);
     }
 
-    // emojilang_array_concat({i64, ptr}, {i64, ptr})
     {
         auto* fn_ty = llvm::FunctionType::get(array_type, { array_type, array_type }, false);
         array_concat_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_array_concat", module.get());
@@ -251,7 +246,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRet(ret_struct);
     }
 
-    // emojilang_array_push({i64, ptr}, i64)
     {
         auto* fn_ty = llvm::FunctionType::get(array_type, { array_type, i64_type }, false);
         array_push_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_array_push", module.get());
@@ -294,7 +288,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRet(ret_struct);
     }
 
-    // emojilang_array_prepend(i64, {i64, ptr})
     {
         auto* fn_ty = llvm::FunctionType::get(array_type, { i64_type, array_type }, false);
         array_prepend_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_array_prepend", module.get());
@@ -337,7 +330,6 @@ void CodeGen::emit_runtime_helpers() {
         b.CreateRet(ret_struct);
     }
 
-    // emojilang_array_eq({i64, ptr}, {i64, ptr})
     {
         auto* fn_ty = llvm::FunctionType::get(i64_type, { array_type, array_type }, false);
         array_eq_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_array_eq", module.get());
@@ -383,7 +375,6 @@ void CodeGen::emit_runtime_helpers() {
         b.SetInsertPoint(ret_true_bb);
         b.CreateRet(llvm::ConstantInt::get(i64_type, 1));
 
-        // emojilang_array_ne
         array_ne_fn = llvm::Function::Create(fn_ty, llvm::Function::InternalLinkage, "emojilang_array_ne", module.get());
         auto* ne_bb = llvm::BasicBlock::Create(ctx, "entry", array_ne_fn);
         b.SetInsertPoint(ne_bb);
@@ -393,7 +384,7 @@ void CodeGen::emit_runtime_helpers() {
     }
 }
 
-TypeKind CodeGen::infer_expr_type(const Expr& expr, const std::unordered_map<std::string, TypeKind>& local_types) {
+TypeKind CodeGen::infer_expr_type(const Expr& expr, const unordered_map<string, TypeKind>& local_types) {
     if (dynamic_cast<const NumExpr*>(&expr)) return TypeKind::Int;
     if (dynamic_cast<const ArrayLitExpr*>(&expr)) return TypeKind::Array;
     if (dynamic_cast<const LenExpr*>(&expr)) return TypeKind::Int;
@@ -423,7 +414,6 @@ TypeKind CodeGen::infer_expr_type(const Expr& expr, const std::unordered_map<std
 }
 
 void CodeGen::infer_types(const Program& program) {
-    // Collect all functions
     for (const auto& stmt : program.stmts) {
         if (auto* fn_def = dynamic_cast<const FuncDefStmt*>(stmt.get())) {
             FuncInfo fi;
@@ -435,24 +425,21 @@ void CodeGen::infer_types(const Program& program) {
         }
     }
 
-    // Iterative constraint propagation
     bool changed = true;
     for (int iter = 0; iter < 10 && changed; ++iter) {
         changed = false;
 
-        // Propagate within functions
         for (auto& pair : funcs) {
             FuncInfo& fi = pair.second;
             const FuncDefStmt* fn = fi.ast_node;
 
-            std::unordered_map<std::string, TypeKind> local_types;
+            unordered_map<string, TypeKind> local_types;
             for (size_t i = 0; i < fn->params.size(); ++i) {
                 if (fi.param_types[i] != TypeKind::Unknown) {
                     local_types[fn->params[i]] = fi.param_types[i];
                 }
             }
 
-            // Helper lambda to scan AST and constrain types
             auto scan_expr = [&](auto& self, const Expr& expr) -> void {
                 if (auto* len_expr = dynamic_cast<const LenExpr*>(&expr)) {
                     if (auto* v = dynamic_cast<const VarExpr*>(len_expr->arr.get())) {
@@ -546,7 +533,6 @@ void CodeGen::infer_types(const Program& program) {
                 scan_stmt(scan_stmt, *s);
             }
 
-            // Sync parameter types back to fi
             for (size_t i = 0; i < fn->params.size(); ++i) {
                 auto it = local_types.find(fn->params[i]);
                 if (it != local_types.end() && fi.param_types[i] != it->second) {
@@ -557,7 +543,6 @@ void CodeGen::infer_types(const Program& program) {
         }
     }
 
-    // Default any remaining Unknown to Int
     for (auto& pair : funcs) {
         FuncInfo& fi = pair.second;
         if (fi.ret_type == TypeKind::Unknown) {
@@ -581,17 +566,17 @@ void CodeGen::pop_scope() {
     }
 }
 
-VarInfo CodeGen::lookup_var(const std::string& name, int line) {
+VarInfo CodeGen::lookup_var(const string& name, int line) {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it) {
         auto found = it->find(name);
         if (found != it->end()) {
             return found->second;
         }
     }
-    throw std::runtime_error("Line " + std::to_string(line) + ": Undefined variable: " + name);
+    throw runtime_error("Line " + to_string(line) + ": Undefined variable: " + name);
 }
 
-llvm::AllocaInst* CodeGen::create_entry_block_alloca(llvm::Function* fn, const std::string& name, llvm::Type* type) {
+llvm::AllocaInst* CodeGen::create_entry_block_alloca(llvm::Function* fn, const string& name, llvm::Type* type) {
     llvm::IRBuilder<> tmp_builder(&fn->getEntryBlock(), fn->getEntryBlock().begin());
     return tmp_builder.CreateAlloca(type, nullptr, name);
 }
@@ -625,7 +610,7 @@ TypeKind CodeGen::get_expr_type(const Expr& expr) {
 void CodeGen::codegen_func_def(const FuncDefStmt& func_def) {
     FuncInfo& fi = funcs[func_def.name];
 
-    std::vector<llvm::Type*> param_types;
+    vector<llvm::Type*> param_types;
     for (TypeKind tk : fi.param_types) {
         param_types.push_back((tk == TypeKind::Int) ? i64_type : array_type);
     }
@@ -647,7 +632,7 @@ void CodeGen::codegen_func_def(const FuncDefStmt& func_def) {
     push_scope();
     p_idx = 0;
     for (auto& arg : fn->args()) {
-        std::string pname = func_def.params[p_idx];
+        string pname = func_def.params[p_idx];
         TypeKind ptk = fi.param_types[p_idx];
         llvm::Type* pty = (ptk == TypeKind::Int) ? i64_type : array_type;
         auto* alloc = create_entry_block_alloca(fn, pname, pty);
@@ -672,7 +657,7 @@ void CodeGen::codegen_func_def(const FuncDefStmt& func_def) {
 
 void CodeGen::codegen_stmt(const Stmt& stmt) {
     if (builder.GetInsertBlock()->getTerminator()) {
-        return; // Current basic block already terminated
+        return;
     }
 
     if (auto* decl = dynamic_cast<const DeclStmt*>(&stmt)) {
@@ -682,7 +667,8 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
         auto* alloc = create_entry_block_alloca(current_function, decl->name, llvm_ty);
         builder.CreateStore(val, alloc);
         scopes.back()[decl->name] = { alloc, tk };
-    } else if (auto* assign = dynamic_cast<const AssignStmt*>(&stmt)) {
+    } 
+    else if (auto* assign = dynamic_cast<const AssignStmt*>(&stmt)) {
         auto* val = codegen_expr(*assign->val);
         TypeKind val_tk = get_expr_type(*assign->val);
         VarInfo vi = lookup_var(assign->name, assign->line);
@@ -699,7 +685,8 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
         } else {
             builder.CreateStore(val, vi.alloca_inst);
         }
-    } else if (auto* if_stmt = dynamic_cast<const IfStmt*>(&stmt)) {
+    } 
+    else if (auto* if_stmt = dynamic_cast<const IfStmt*>(&stmt)) {
         auto* cond_val = codegen_expr(*if_stmt->cond);
         auto* cond_bool = builder.CreateICmpNE(cond_val, llvm::ConstantInt::get(i64_type, 0), "ifcond");
 
@@ -709,7 +696,6 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
 
         builder.CreateCondBr(cond_bool, then_bb, else_bb);
 
-        // Then block
         builder.SetInsertPoint(then_bb);
         push_scope();
         for (const auto& s : if_stmt->then_block->stmts) {
@@ -720,7 +706,6 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
             builder.CreateBr(merge_bb);
         }
 
-        // Else block
         builder.SetInsertPoint(else_bb);
         if (if_stmt->else_block) {
             push_scope();
@@ -733,13 +718,13 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
             builder.CreateBr(merge_bb);
         }
 
-        // Merge block
         if (merge_bb->hasNPredecessors(0)) {
             merge_bb->eraseFromParent();
         } else {
             builder.SetInsertPoint(merge_bb);
         }
-    } else if (auto* while_stmt = dynamic_cast<const WhileStmt*>(&stmt)) {
+    } 
+    else if (auto* while_stmt = dynamic_cast<const WhileStmt*>(&stmt)) {
         auto* cond_bb = llvm::BasicBlock::Create(ctx, "while.cond", current_function);
         auto* body_bb = llvm::BasicBlock::Create(ctx, "while.body", current_function);
         auto* exit_bb = llvm::BasicBlock::Create(ctx, "while.exit", current_function);
@@ -762,12 +747,14 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
         }
 
         builder.SetInsertPoint(exit_bb);
-    } else if (auto* ret_stmt = dynamic_cast<const ReturnStmt*>(&stmt)) {
+    } 
+    else if (auto* ret_stmt = dynamic_cast<const ReturnStmt*>(&stmt)) {
         auto* val = codegen_expr(*ret_stmt->val);
         builder.CreateRet(val);
         auto* dead_bb = llvm::BasicBlock::Create(ctx, "after.ret", current_function);
         builder.SetInsertPoint(dead_bb);
-    } else if (auto* print_stmt = dynamic_cast<const PrintStmt*>(&stmt)) {
+    } 
+    else if (auto* print_stmt = dynamic_cast<const PrintStmt*>(&stmt)) {
         auto* val = codegen_expr(*print_stmt->val);
         TypeKind tk = get_expr_type(*print_stmt->val);
         if (tk == TypeKind::Int) {
@@ -775,9 +762,11 @@ void CodeGen::codegen_stmt(const Stmt& stmt) {
         } else {
             builder.CreateCall(print_array_fn, { val });
         }
-    } else if (auto* expr_stmt = dynamic_cast<const ExprStmt*>(&stmt)) {
+    } 
+    else if (auto* expr_stmt = dynamic_cast<const ExprStmt*>(&stmt)) {
         codegen_expr(*expr_stmt->expr);
-    } else if (auto* block = dynamic_cast<const BlockStmt*>(&stmt)) {
+    } 
+    else if (auto* block = dynamic_cast<const BlockStmt*>(&stmt)) {
         push_scope();
         for (const auto& s : block->stmts) {
             codegen_stmt(*s);
@@ -834,16 +823,15 @@ llvm::Value* CodeGen::codegen_expr(const Expr& expr) {
     if (auto* call = dynamic_cast<const CallExpr*>(&expr)) {
         auto it = funcs.find(call->callee);
         if (it == funcs.end() || !it->second.llvm_fn) {
-            throw std::runtime_error("Line " + std::to_string(call->line) + ": Undefined function: " + call->callee);
+            throw runtime_error("Line " + to_string(call->line) + ": Undefined function: " + call->callee);
         }
-        std::vector<llvm::Value*> args;
+        vector<llvm::Value*> args;
         for (const auto& a : call->args) {
             args.push_back(codegen_expr(*a));
         }
         return builder.CreateCall(it->second.llvm_fn, args, call->callee + "_call");
     }
     if (auto* bin = dynamic_cast<const BinOpExpr*>(&expr)) {
-        // Short-circuit logical operators
         if (bin->op == "&&") {
             auto* res_alloc = create_entry_block_alloca(current_function, "and_res", i64_type);
             builder.CreateStore(llvm::ConstantInt::get(i64_type, 0), res_alloc);
@@ -942,23 +930,21 @@ llvm::Value* CodeGen::codegen_expr(const Expr& expr) {
             return builder.CreateZExt(cmp, i64_type);
         }
 
-        throw std::runtime_error("Line " + std::to_string(bin->line) + ": Unknown operator: " + bin->op);
+        throw runtime_error("Line " + to_string(bin->line) + ": Unknown operator: " + bin->op);
     }
 
-    throw std::runtime_error("Line " + std::to_string(expr.line) + ": Unknown expression");
+    throw runtime_error("Line " + to_string(expr.line) + ": Unknown expression");
 }
 
 void CodeGen::generate(const Program& program) {
     infer_types(program);
 
-    // First pass: generate all user functions
     for (const auto& stmt : program.stmts) {
         if (auto* fn_def = dynamic_cast<const FuncDefStmt*>(stmt.get())) {
             codegen_func_def(*fn_def);
         }
     }
 
-    // Second pass: generate main() wrapping top-level statements
     auto* main_fn_type = llvm::FunctionType::get(i32_type, false);
     auto* main_fn = llvm::Function::Create(main_fn_type, llvm::Function::ExternalLinkage, "main", module.get());
     auto* entry_bb = llvm::BasicBlock::Create(ctx, "entry", main_fn);
@@ -977,16 +963,15 @@ void CodeGen::generate(const Program& program) {
         builder.CreateRet(llvm::ConstantInt::get(i32_type, 0));
     }
 
-    // Verify module
-    std::string err;
+    string err;
     llvm::raw_string_ostream err_os(err);
     if (llvm::verifyModule(*module, &err_os)) {
-        throw std::runtime_error("LLVM module verification failed:\n" + err);
+        throw runtime_error("LLVM module verification failed:\n" + err);
     }
 }
 
-void CodeGen::dump_ir(std::ostream& os) {
-    std::string s;
+void CodeGen::dump_ir(ostream& os) {
+    string s;
     llvm::raw_string_ostream ros(s);
     module->print(ros, nullptr);
     os << ros.str();
@@ -996,7 +981,7 @@ void CodeGen::print_ir() {
     module->print(llvm::outs(), nullptr);
 }
 
-bool CodeGen::emit_object(const std::string& obj_path) {
+bool CodeGen::emit_object(const string& obj_path) {
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargets();
     llvm::InitializeAllTargetMCs();
@@ -1006,26 +991,26 @@ bool CodeGen::emit_object(const std::string& obj_path) {
     auto target_triple = llvm::sys::getDefaultTargetTriple();
     module->setTargetTriple(target_triple);
 
-    std::string err;
+    string err;
     const llvm::Target* target = llvm::TargetRegistry::lookupTarget(target_triple, err);
     if (!target) {
-        throw std::runtime_error("LLVM target lookup failed: " + err);
+        throw runtime_error("LLVM target lookup failed: " + err);
     }
 
     llvm::TargetOptions opt;
-    auto rm = std::optional<llvm::Reloc::Model>(llvm::Reloc::PIC_);
+    auto rm = optional<llvm::Reloc::Model>(llvm::Reloc::PIC_);
     auto* target_machine = target->createTargetMachine(target_triple, "generic", "", opt, rm);
     module->setDataLayout(target_machine->createDataLayout());
 
-    std::error_code ec;
+    error_code ec;
     llvm::raw_fd_ostream dest(obj_path, ec, llvm::sys::fs::OF_None);
     if (ec) {
-        throw std::runtime_error("Could not open object file for writing: " + ec.message());
+        throw runtime_error("Could not open object file for writing: " + ec.message());
     }
 
     llvm::legacy::PassManager pass;
     if (target_machine->addPassesToEmitFile(pass, dest, nullptr, llvm::CodeGenFileType::ObjectFile)) {
-        throw std::runtime_error("TargetMachine cannot emit object file");
+        throw runtime_error("TargetMachine cannot emit object file");
     }
 
     pass.run(*module);
@@ -1033,22 +1018,22 @@ bool CodeGen::emit_object(const std::string& obj_path) {
     return true;
 }
 
-bool CodeGen::emit_native(const std::string& exe_path) {
+bool CodeGen::emit_native(const string& exe_path) {
     char tmp_obj[] = "/tmp/emojilang_obj_XXXXXX.o";
     int fd = mkstemps(tmp_obj, 2);
     if (fd == -1) {
-        throw std::runtime_error("Failed to create temporary object file");
+        throw runtime_error("Failed to create temporary object file");
     }
     close(fd);
 
     emit_object(tmp_obj);
 
-    std::string cmd = "clang " + std::string(tmp_obj) + " -o " + exe_path;
-    int ret = std::system(cmd.c_str());
-    std::remove(tmp_obj);
+    string cmd = "clang " + string(tmp_obj) + " -o " + exe_path;
+    int ret = system(cmd.c_str());
+    remove(tmp_obj);
 
     if (ret != 0) {
-        throw std::runtime_error("Clang linking failed with code " + std::to_string(ret));
+        throw runtime_error("Clang linking failed with code " + to_string(ret));
     }
     return true;
 }
